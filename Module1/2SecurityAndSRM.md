@@ -87,13 +87,13 @@ AWS secures the **cloud infrastructure**, while the customer is responsible for 
           │                         │
    Security of the Cloud      Security in the Cloud
           │                         │
-        AWS                    Customer
+         AWS                    Customer
           │                         │
-   Infrastructure            Data & Access
-   Data Centers              Configuration
-   Hardware                  Encryption
-   Networking                Backups
-   Virtualization            Applications
+       Infrastructure            Data & Access
+       Data Centers              Configuration
+       Hardware                  Encryption
+       Networking                Backups
+       Virtualization            Applications
 ```
 
 ## Key Takeaway
