@@ -7,6 +7,8 @@ AWS describes this using the **Shared Responsibility Model**, which separates re
 - **Security of the cloud** → AWS responsibility
 - **Security in the cloud** → Customer responsibility
 
+![Shared Responibility Model](../images/SRM.png)
+
 ## AWS Responsibility: Security of the Cloud
 
 AWS is responsible for protecting and securing the **infrastructure that runs AWS services**.
