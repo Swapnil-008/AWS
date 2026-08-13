@@ -204,16 +204,92 @@ This policy allows an IAM user to:
 
 The `${aws:username}` variable restricts the resource to the **current user's own IAM identity**.
 
-# Key Takeaways
+# IAM Best Practices
 
-- **IAM** controls authentication and authorization for AWS resources.
-- **IAM User** represents a person or service.
-- **IAM Group** is a collection of users that share permissions.
-- **IAM Policy** defines what actions are allowed or denied on which resources.
-- Policies are commonly written as **JSON documents**.
-- `Effect` → Allow or Deny.
-- `Action` → What can be done.
-- `Resource` → Where the action can be performed.
-- `*` → Wildcard representing all matching actions or resources.
-- IAM is a **global service**.
-- Groups provide a scalable way to manage permissions.
+## 1. Lock Down the AWS Root User
+
+The **root user** has full access to all resources in an AWS account. If its credentials are compromised, the entire account can be at risk.
+
+Best practices:
+- Do not share root user credentials.
+- Consider deleting root user access keys.
+- Enable **MFA** for the root user.
+- Use the root user only when required.
+
+## 2. Follow the Principle of Least Privilege
+
+**Least privilege** means granting only the permissions necessary to perform a specific task and nothing more.
+
+Start with the minimum required permissions and add more only when necessary.
+
+## 3. Use IAM Appropriately
+
+IAM is used to manage access to **AWS accounts and AWS resources** through users, groups, roles, and policies.
+
+IAM is **not** intended for:
+- Website sign-in/sign-up authentication
+- Protecting operating systems
+- Protecting networks
+
+## 4. Use IAM Roles When Possible
+
+An **IAM role** provides **temporary credentials** instead of long-term credentials.
+
+Roles are easier to manage and are preferred when applications or AWS services need access to other AWS resources.
+
+| IAM User | IAM Role |
+|---|---|
+| Uses long-term credentials | Uses temporary credentials |
+| Username/password or access keys | Temporary security credentials |
+| Credentials remain until rotated/removed | Credentials automatically expire |
+| More difficult to manage at scale | Easier to manage |
+
+### Example: EC2 Using an IAM Role
+
+An application running on an EC2 instance can use an IAM role to access an S3 bucket without storing access keys inside the application.
+
+![IAM Role with EC2 Instance Profile](../images/IAM-role-ec2-instance-profile.png)
+
+Flow:
+
+1. An administrator creates an IAM role with permission to access the S3 bucket.
+2. The EC2 instance is launched with an **instance profile** containing the IAM role.
+3. The application retrieves temporary role credentials from the EC2 instance.
+4. The application uses those temporary credentials to make API calls to S3.
+
+> **Key idea:** Use IAM roles instead of storing long-term access keys in applications whenever possible.
+
+## 5. Consider Using an Identity Provider (IdP)
+
+An **Identity Provider (IdP)** manages user identities and authentication for an organization.
+
+For organizations with many employees, an IdP can provide a **single source of truth** for identities.
+
+Instead of creating separate IAM users in every AWS account, users can be managed in the organization's IdP and use IAM roles for AWS access.
+
+### Example
+
+If an employee has access to multiple AWS accounts, their identity can be managed in the company's IdP instead of creating a separate IAM user in every account.
+
+If the employee changes roles or leaves the company, their access can be updated or removed centrally.
+
+## 6. Consider AWS IAM Identity Center
+
+**AWS IAM Identity Center** allows users to sign in with a single set of credentials and access their assigned AWS accounts and applications through a central user portal.
+
+It provides:
+- Centralized user and group management
+- Single sign-on to multiple AWS accounts
+- Permission management across accounts
+- Integration with third-party identity providers
+
+### IAM vs IAM Identity Center
+
+| IAM | IAM Identity Center |
+|---|---|
+| Primarily manages identities and access within an AWS account | Designed for centralized access across multiple AWS accounts |
+| Users, groups, and roles | Centralized users, groups, and access |
+| Suitable for AWS resource access | Suitable for organizations with many users/accounts |
+
+
+https://606603864014.signin.aws.amazon.com/console
