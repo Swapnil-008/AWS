@@ -91,7 +91,7 @@ AWS Global Infrastructure consists of physical infrastructure such as **data cen
 
 ## AWS Regions
 
-An **AWS Region** is a geographic location where AWS hosts its data centers.
+An **AWS Region** is a geographic location where AWS hosts its data centers or it's a cluster of **Availability Zones**.
 
 Each Region has:
 - A geographical name
@@ -106,18 +106,20 @@ Each Region has:
 
 AWS Regions are **independent**. Data is not automatically replicated between Regions unless you explicitly configure it.
 
+![Region-AZs-DataCenters](../images//region-az-dataCenter.png)
+
 ## Choosing an AWS Region
 
 Consider these four factors:
 
-1. **Latency** – Choose a Region close to your users to reduce network delay.
-2. **Price** – Pricing can vary between Regions due to local operating costs.
-3. **Service Availability** – Some AWS services may not be available in every Region.
-4. **Compliance** – Some regulations require data to be stored in a specific geographic location.
+1. **Compliance** – Some regulations require data to be stored in a specific geographic location.
+2. **Latency** – Choose a Region close to your users to reduce network delay.
+3. **Price** – Pricing can vary between Regions due to local operating costs.
+4. **Service Availability** – Some AWS services may not be available in every Region.
 
 ## Availability Zones (AZs)
 
-An **Availability Zone** is one or more data centers within an AWS Region.
+An **Availability Zone** is a cluster of **data centers** within an AWS Region.
 
 Each AZ has:
 - Redundant power
@@ -176,6 +178,55 @@ Region
 
 If AZ 1 fails → AZ 2 continues serving traffic
 ```
+
+---
+
+## Edge Locations
+
+An **Edge Location** is a physical location in AWS's global network where **Amazon CloudFront caches content** closer to users.
+
+### How It Works
+
+When a user requests content through CloudFront:
+
+- CloudFront routes the request to a suitable **Edge Location**.
+- If the content is already cached (**cache hit**), it is delivered directly from the Edge Location.
+- If it is not cached (**cache miss**), CloudFront fetches it from the **origin**, caches it, and then delivers it to the user.
+
+```text
+User
+  ↓
+CloudFront
+  ↓
+Edge Location
+  ↓
+Cached Content → User
+
+If not cached:
+Edge Location → Origin → Edge Location → User
+
+```
+
+### Example
+
+Suppose a video is stored on a server in **London**, but a user in **Sydney** requests it.
+
+**Without CloudFront:**
+
+```text
+Sydney User → London Server → Video
+
+With CloudFront:
+The video can be cached at an Edge Location near Sydney:
+Sydney User → Sydney Edge Location → Video
+```
+
+This reduces the distance the data needs to travel and improves response time.
+Benefits
+- Lower Latency – Content is served from a location closer to users.
+- Faster Delivery – Cached content can be delivered without contacting the origin every time.
+- Reduced Origin Load – Fewer requests reach the origin server.
+- Global Content Delivery – Content can be efficiently delivered to users around the world.
 
 ---
 

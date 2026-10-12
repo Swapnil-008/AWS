@@ -292,4 +292,156 @@ It provides:
 | Suitable for AWS resource access | Suitable for organizations with many users/accounts |
 
 
-https://606603864014.signin.aws.amazon.com/console
+# IAM Access Keys
+
+**Access keys** are credentials used for **programmatic access** to AWS.
+
+They are used with:
+
+- AWS CLI
+- AWS SDKs
+- AWS APIs
+
+An access key consists of:
+
+- **Access Key ID** – Identifies the credential.
+- **Secret Access Key** – Used to authenticate/sign requests.
+
+```text
+Local Machine
+     ↓
+AWS CLI / SDK
+     ↓
+Access Key
+     ↓
+AWS API
+     ↓
+AWS Service
+```
+
+> Access keys authenticate the request, while IAM policies determine what the user is allowed to do.
+
+IAM user access keys are **long-term credentials** and should be protected carefully.
+
+### Best Practices
+
+- Never hard-code access keys in application code.
+- Never commit access keys to GitHub.
+- Never share access keys.
+- Prefer temporary credentials/IAM roles when possible.
+
+---
+### Not that important ---
+
+# Temporary Security Credentials
+
+AWS can provide **temporary security credentials** for programmatic access.
+
+They consist of:
+
+- Access Key ID
+- Secret Access Key
+- Session Token
+- Expiration time
+
+Unlike IAM user access keys, temporary credentials **automatically expire**.
+
+They are commonly used with **IAM roles, AWS STS, and IAM Identity Center**.
+
+# AWS Security Token Service (STS)
+
+**AWS STS** provides temporary security credentials that can be used to access AWS resources.
+
+For example:
+
+```text
+Application
+     ↓
+Assume IAM Role
+     ↓
+AWS STS
+     ↓
+Temporary Credentials
+     ↓
+AWS Service
+```
+
+# IAM Role Trust Policy
+
+An IAM role has a **trust policy** that defines who or what can assume the role.
+
+Example:
+
+```text
+EC2
+ ↓
+Can assume
+ ↓
+IAM Role
+```
+
+> **Trust policy → Who can assume the role?**
+
+> **Permissions policy → What can the role do?**
+
+# Amazon Resource Name (ARN)
+
+An **ARN (Amazon Resource Name)** uniquely identifies an AWS resource.
+
+General format:
+
+```text
+arn:partition:service:region:account-id:resource
+```
+
+Example:
+
+```text
+arn:aws:iam::123456789012:user/Bob
+```
+
+ARNs are commonly used in IAM policies to specify the **Resource**.
+
+# IAM Policy Evaluation
+
+When an AWS request is made, AWS evaluates the applicable IAM policies.
+
+The basic rules are:
+
+- By default, access is **denied**.
+- An explicit **Allow** grants access.
+- An explicit **Deny** overrides an Allow.
+
+```text
+Explicit Deny → DENIED
+       ↓
+No Allow → DENIED
+       ↓
+Allow → ALLOWED
+```
+
+> **Explicit Deny always overrides Allow.**
+
+# Identity-Based vs Resource-Based Policies
+
+| Identity-Based Policy | Resource-Based Policy |
+|---|---|
+| Attached to IAM user, group, or role | Attached to an AWS resource |
+| Defines what the identity can do | Defines who can access the resource |
+| Example: IAM user policy | Example: S3 bucket policy |
+
+# IAM Service-Linked Role
+
+A **service-linked role** is a special IAM role that is directly linked to an AWS service.
+
+It allows an AWS service to perform specific actions on your behalf.
+
+```text
+AWS Service
+     ↓
+Service-Linked Role
+     ↓
+AWS Resources
+```
+
+AWS manages the permissions and trust relationship required by the service.
