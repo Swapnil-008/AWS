@@ -248,7 +248,7 @@ Roles are easier to manage and are preferred when applications or AWS services n
 
 An application running on an EC2 instance can use an IAM role to access an S3 bucket without storing access keys inside the application.
 
-![IAM Role with EC2 Instance Profile](../images/IAM-role-ec2-instance-profile.png)
+![IAM Role with EC2 Instance Profile](../Assets/IAM-role-ec2-instance-profile.png)
 
 Flow:
 

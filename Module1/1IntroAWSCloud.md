@@ -106,7 +106,7 @@ Each Region has:
 
 AWS Regions are **independent**. Data is not automatically replicated between Regions unless you explicitly configure it.
 
-![Region-AZs-DataCenters](../images//region-az-dataCenter.png)
+![Region-AZs-DataCenters](../Assets//region-az-dataCenter.png)
 
 ## Choosing an AWS Region
 
